@@ -1,6 +1,6 @@
 // load function call below on the input (it is sniper function )
 const loadAllPhones = async(status, brandName) => {
-    console.log(brandName);
+    // console.log(brandName);
     document.getElementById('spinner').style.display = "none"
 
     // get the api form (async using)
@@ -24,23 +24,26 @@ const displayAllPhone = (phones) => {
     const phoneContainer = document.getElementById('phones-container');
     phones.forEach(phone => {
         // console.log(phone);
-        
-        // new div create in
+
+        // data get from array (like destruction);
+        const {brand, phone_name, image, slug} = phone;
+    
+        // new div create in the innerHtml:
         const div = document.createElement('div')
         div.innerHTML = `
         
-                <div class="card bg-base-100 w-96 mb-8 shadow-xl">
-                    <figure class="px-10 pt-10">
+                <div class="card bg-base-100 w-96  mb-8 shadow-xl">
+                    <figure class="px-6 pt-10">
                         <img
-                        src="${phone.image}"
+                        src="${image}"
                         class="rounded-xl" />
                     </figure>
                         
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">${phone.brand}</h2>
-                        <p>${phone.phone_name}</p>
+                        <p>${phone_name}</p>
                         <div class="card-actions">
-                        <button class="bg-blue-600 px-4 py-1 rounded text-white">Show Details</button>
+                        <button onclick="phoneDetails('${slug}')" class="bg-blue-600 px-4 py-1 rounded text-white">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -50,6 +53,16 @@ const displayAllPhone = (phones) => {
     })
     
 }
+
+
+// phone all details button function create:
+    const phoneDetails = async(slug) =>{
+       const res = await fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
+       const data = await res.json();
+       console.log(data.data);
+       
+    }
+
 
 // click show all  Btn function:
 const handleShowAll = () =>{
