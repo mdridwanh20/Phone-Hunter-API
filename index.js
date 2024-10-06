@@ -17,6 +17,7 @@ const loadAllPhones = async(status, brandName) => {
         displayAllPhone(data.data.slice(0,6))
     }
     // display all phones function
+
 }
 
 // display phone All phone function;
@@ -31,7 +32,6 @@ const displayAllPhone = (phones) => {
         // new div create in the innerHtml:
         const div = document.createElement('div')
         div.innerHTML = `
-        
                 <div class="card bg-base-100 w-96  mb-8 shadow-xl">
                     <figure class="px-6 pt-10">
                         <img
@@ -40,26 +40,42 @@ const displayAllPhone = (phones) => {
                     </figure>
                         
                     <div class="card-body items-center text-center">
-                        <h2 class="card-title">${phone.brand}</h2>
+                        <h2 class="card-title">${brand}</h2>
                         <p>${phone_name}</p>
                         <div class="card-actions">
                         <button onclick="phoneDetails('${slug}')" class="bg-blue-600 px-4 py-1 rounded text-white">Show Details</button>
                         </div>
                     </div>
                 </div>
-        
         `;
         phoneContainer.append(div)
     })
-    
 }
 
 
 // phone all details button function create:
-    const phoneDetails = async(slug) =>{
-       const res = await fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
+    const phoneDetails = async(id) =>{
+       const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
        const data = await res.json();
        console.log(data.data);
+
+       const {brand } = data.data
+
+       const modalContainer = document.getElementById('modalContainer');
+       modalContainer.innerHTML = `
+       
+        <dialog id="my_modal_3" class="modal">
+            <div class="modal-box">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+                <h3 class="text-lg font-bold">${brand}</h3>
+            </div>
+        </dialog>
+       
+       `;
+
+       my_modal_3.showModal()
        
     }
 
